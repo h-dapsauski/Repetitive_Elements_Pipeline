@@ -161,7 +161,7 @@ def run_unicycler(): # MAKE CHANGES TO THIS FUNCTION
     # Unicycler Run 
 
     #directory to input files
-    input_dir = os.path.abspath("../artgens") #convert relative path to full absolute path
+    input_dir = os.path.abspath("artgens") 
 
     #making output directory 
     if not os.path.isdir("Unicycler_Output"): #make a directory to store SPAdes output if it doesn't already exist 
