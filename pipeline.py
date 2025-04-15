@@ -65,7 +65,7 @@ def generate_and_insert_repeats():
     motifs = {"motif1": seq, "motif2": seq2} 
     
     ip = [] #list of insertion points
-    if not os.path.isfile("Motifs/ip.txt"):
+    if not os.path.isfile("Motifs/ip.txt"): #if there are no precalculated insertions
         num_insertions = [2, 3, 4, 5] #number of insertions to make
 
         mingenomelength = 1000000000000 #1 trillion, arbitrary maximum
@@ -75,7 +75,7 @@ def generate_and_insert_repeats():
                 genomelength = len(dat)
                 if genomelength < mingenomelength: #get shortest genome
                     mingenomelength = genomelength
-        for n in range(len(num_insertions)+1): #insert based on number of insertions
+        for n in range(num_insertions[-1]): #insert based on number of insertions
             ip.append(random.randint(0,mingenomelength)) #generate numbers that don't exceed the shortest genome
         
         ip = sorted(ip) #sort the list of insertion points
@@ -85,15 +85,18 @@ def generate_and_insert_repeats():
         with open("Motifs/ip.txt", "w") as f:
             for i in ip:
                 f.write(f"{i}\n")
-    else:
+    else: #updates variables if you are reusing previously calculated insertions or the provided sample data
         num_insertions = []
         with open("Motifs/ip.txt", "r") as j:
-            reader = j.readlines()
+            reader = j.readlines() #read insertion point file that would have been generated
             for line in reader:
                 if len(line) > 0: #ignore the empty line at the end
                     ip.append(int(line))
-        for insernum in range(len(ip)-1):
-            num_insertions.append(insernum+2)
+        if len(ip) > 1: #regular usage
+            for insernum in range(len(ip)-1): #skip adding 1 since that would not be repetitive
+                num_insertions.append(insernum+2) #start at 2
+        elif len(ip) == 1: #this should only be used for testing pipeline
+            num_insertions.append(1) #1 insertion, so not truly repetitive, but allows pipeline to run
 
     for file in os.listdir("Genomes"): #loop through the genomes
         with open(f"Genomes/{file}", "r") as f:
