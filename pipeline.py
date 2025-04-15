@@ -26,39 +26,48 @@ def download_genomes():
 # Hillary's Code - Generating and Inserting Repeats 
 # This function is still a work in progress and needs more editting 
 def generate_and_insert_repeats():
-    if not os.path.isfile("Motifs/ip.txt"):
-        bases = ["A", "C", "G", "T"] #nucleotide bases
+    #if not os.path.isfile("Motifs/ip.txt"):
+    bases = ["A", "C", "G", "T"] #nucleotide bases
 
-        # 100 BP random repetitive element 
+    # 100 BP random repetitive element 
+    if not os.path.isfile("Motifs/motif1.txt"):
         motif1 = random.choices(bases, k=100) #100bp random sequence
         seq = "".join(motif1) #join the bases together to make a string
+    else:
+        with open("Motifs/motif1.txt","r") as m:
+            seq = m.read()
 
-        # 500 BP random repetitive element
+    # 500 BP random repetitive element
+    if not os.path.isfile("Motifs/motif2.txt"):
         motif2 = random.choices(bases, k=500) #500bp random sequence
         seq2 = "".join(motif2) #join the bases together to make a string
+    else:
+        with open("Motifs/motif2.txt","r") as n:
+            seq2 = n.read()
 
-        if not os.path.isdir("Motifs"): #make a directory to store the motifs if it doesn't already exist 
-            os.system("mkdir Motifs")
-            os.chdir("Motifs") #move to that directory
-            # Write the repetitive elements to files - might be necessary/helpful to see the sequences for future analysis 
-            with open("motif1.txt", "w") as f:
-                f.write(seq)
-            with open("motif2.txt", "w") as f:
-                f.write(seq2)
-            os.chdir("..") #move back to the original directory
+    if not os.path.isdir("Motifs"): #make a directory to store the motifs if it doesn't already exist 
+        os.system("mkdir Motifs")
+        os.chdir("Motifs") #move to that directory
+        # Write the repetitive elements to files - might be necessary/helpful to see the sequences for future analysis 
+        with open("motif1.txt", "w") as f:
+            f.write(seq)
+        with open("motif2.txt", "w") as f:
+            f.write(seq2)
+        os.chdir("..") #move back to the original directory
 
-        
-        # Create a directory to store the modified genomes 
-        modified_dir = "Modified_Genomes"
-        if not os.path.isdir(modified_dir): #make a directory to store modified genomes if it doesn't already exist
-            os.system(f"mkdir {modified_dir} ") #create directory if it doesn't exist
-        
-        # Create a dictionary of motifs
-        motifs = {"motif1": seq, "motif2": seq2} 
-        
+    
+    # Create a directory to store the modified genomes 
+    modified_dir = "Modified_Genomes"
+    if not os.path.isdir(modified_dir): #make a directory to store modified genomes if it doesn't already exist
+        os.system(f"mkdir {modified_dir} ") #create directory if it doesn't exist
+    
+    # Create a dictionary of motifs
+    motifs = {"motif1": seq, "motif2": seq2} 
+    
+    ip = [] #list of insertion points
+    if not os.path.isfile("Motifs/ip.txt"):
         num_insertions = [2, 3, 4, 5] #number of insertions to make
 
-        ip = [] #list of insertion points
         mingenomelength = 1000000000000 #1 trillion, arbitrary maximum
         for m in os.listdir("Genomes"): #loop through files
             with open("Genomes/{}".format(m), "r") as f: #open files
@@ -76,23 +85,32 @@ def generate_and_insert_repeats():
         with open("Motifs/ip.txt", "w") as f:
             for i in ip:
                 f.write(f"{i}\n")
+    else:
+        num_insertions = []
+        with open("Motifs/ip.txt", "r") as j:
+            reader = j.readlines()
+            for line in reader:
+                if len(line) > 0: #ignore the empty line at the end
+                    ip.append(int(line))
+        for insernum in range(len(ip)-1):
+            num_insertions.append(insernum+2)
 
-        for file in os.listdir("Genomes"): #loop through the genomes
-            with open(f"Genomes/{file}", "r") as f:
-                genome = f.read()
+    for file in os.listdir("Genomes"): #loop through the genomes
+        with open(f"Genomes/{file}", "r") as f:
+            genome = f.read()
 
-            accession = file.split(".")[0]
+        accession = file.split(".")[0]
 
-            for motif_name, sequence in motifs.items():
-                for count in num_insertions: #loop through the number of insertions
-                    mod_genome = genome
-                    for i in range(count):
-                        insertion_point = ip[i] #iterate through the predetermined list of random insertion points based on the number of repeats
-                        mod_genome = mod_genome[:insertion_point] + sequence + mod_genome[insertion_point:]
-                    output_filename = f"{accession}_{motif_name}_{count}.fna"
-                    
-                    with open(f"{modified_dir}/{output_filename}", "w") as out_f:
-                        out_f.write(mod_genome)
+        for motif_name, sequence in motifs.items():
+            for count in num_insertions: #loop through the number of insertions
+                mod_genome = genome
+                for i in range(count):
+                    insertion_point = ip[i] #iterate through the predetermined list of random insertion points based on the number of repeats
+                    mod_genome = mod_genome[:insertion_point] + sequence + mod_genome[insertion_point:]
+                output_filename = f"{accession}_{motif_name}_{count}.fna"
+                
+                with open(f"{modified_dir}/{output_filename}", "w") as out_f:
+                    out_f.write(mod_genome)
 
 
 
@@ -158,38 +176,40 @@ def run_spades():
         os.chdir('..') #move back to orginal direcotry 
 
 def run_unicycler(): # MAKE CHANGES TO THIS FUNCTION 
-    # Unicycler Run 
+    if not os.path.isdir("Unicycler_Output"):
+        # Unicycler Run 
 
-    #directory to input files
-    input_dir = os.path.abspath("artgens") 
+        #directory to input files
+        input_dir = os.path.abspath("artgens") 
 
-    #making output directory 
-    if not os.path.isdir("Unicycler_Output"): #make a directory to store SPAdes output if it doesn't already exist 
-        os.system("mkdir Unicycler_Output") #create directory if it doesn't exist
-    os.chdir("Unicycler_Output") #move to that directory
+        #making output directory 
+        if not os.path.isdir("Unicycler_Output"): #make a directory to store SPAdes output if it doesn't already exist 
+            os.system("mkdir Unicycler_Output") #create directory if it doesn't exist
+        os.chdir("Unicycler_Output") #move to that directory
 
 
-    #forward read path
-    fq1_files =[] #list to store forward reads
-    for f in os.listdir(input_dir):
-        if f.endswith('1.fq'):
-            fq1_files.append(f)
+        #forward read path
+        fq1_files =[] #list to store forward reads
+        for f in os.listdir(input_dir):
+            if f.endswith('1.fq'):
+                fq1_files.append(f)
 
-    for fq1 in fq1_files:
-        fq2 = fq1.replace('1.fq', '2.fq') #find and match reverse read
+        for fq1 in fq1_files:
+            fq2 = fq1.replace('1.fq', '2.fq') #find and match reverse read
 
-        fq1_path_un = os.path.join(input_dir,fq1)
-        fq2_path_un = os.path.join(input_dir,fq2)
+            fq1_path_un = os.path.join(input_dir,fq1)
+            fq2_path_un = os.path.join(input_dir,fq2)
 
-        base1 = fq1.replace('1.fq', '')  #output folder base name
-        outdir1 = f"{base1}"
-        os.system(f'mkdir {outdir1}') #create directory for each output
-    
+            base1 = fq1.replace('1.fq', '')  #output folder base name
+            outdir1 = f"{base1}"
+            os.system(f'mkdir {outdir1}') #create directory for each output
+        
 
-        #running unicycler
-        os.system(f"unicycler -t 2  -1 {fq1_path_un} -2 {fq2_path_un} -o {outdir1}") #-1 forward read #-2 reverse read  #-o output
-        print(f"unicycler finished")
+            #running unicycler
+            os.system(f"unicycler -t 2  -1 {fq1_path_un} -2 {fq2_path_un} -o {outdir1}") #-1 forward read #-2 reverse read  #-o output
+            print(f"unicycler finished")
 
+        os.chdir("..")
 
 # Kimia's Code - Installing and running QUAST
 def install_conda_and_quast():
