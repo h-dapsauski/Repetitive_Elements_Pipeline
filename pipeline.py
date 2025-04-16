@@ -176,7 +176,7 @@ def run_spades():
             subprocess.run(["spades.py", "-1", fq1_path, "-2", fq2_path, "-o", "Spades_Output"]) # Kimia's way 
             # print(f"finish:{fq1} and {fq2} output in {outdir}")
             '''
-        os.chdir('..') #move back to orginal direcotry 
+        os.chdir('..') #move back to orginal directory 
 
 def run_unicycler(): # MAKE CHANGES TO THIS FUNCTION 
     if not os.path.isdir("Unicycler_Output"):
