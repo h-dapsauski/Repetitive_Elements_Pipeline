@@ -25,6 +25,14 @@ cd Repetitive_Elements_Pipeline
 python3 pipeline.py
 ```
 
+Be mindful that this pipeline will skip certain steps depending on if it detects that certain folders already exist, indicating a prior run. This is by design to allow for replicability and to avoid rerunning long processes, but it may cause the program to behave in undesired ways. The SPAdes and Unicycler steps will skip entirely if it detects the existence of folders called `Spades_Output` or `Unicycler_Output`, respectively, so if you want to rerun those parts either delete them (not just their contents!) or move them outside of the `Repetitive_Elements_Pipeline` folder. The `run_art()` function can still run if the `artgens` folder exists, but it won't redo any files that would have the same names as any already in it.
+
+To reuse motifs without them being lost to randomization in subsequent runs, the program will skip the generation step of `generate_and_insert_repeats()` if it detects a `Motifs` folder with the files `motif1.txt`, `motif2.txt`, and `ip.txt`. 
+
+Sample data has been provided using a truncated version of one of the genomes and a pre-generated set of motifs. If you run the sample data, remove the names of the other 3 genomes from the `accession` variable on line 12. 
+
+If you are NOT running the sample data and you don't plan to reuse anything from previous runs, the only things that should be in your `Repetitive_Elements_Pipleline` folder prior to beginning the run should be `pipeline.py` and this README. 
+
 ## Pipeline steps
 ### Downloading the genomes
 The pipeline begins by downloading the genomes from RefSeq if they have not already been downloaded. 
