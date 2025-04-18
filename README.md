@@ -6,6 +6,7 @@ This pipeline is implemented in the Python programming language. The purpose of 
 To utilize and run the pipeline, install the following dependencies and ensure that these dependencies are within the directory where you will be running the pipeline: 
 
 - **Python** - [Download](https://www.python.org/downloads/)
+- **NCBI Datasets** [Download](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/command-line-tools/download-and-install/)
 - **ART** - [Download](https://www.niehs.nih.gov/research/resources/software/biostatistics/art) - use the MountRainier version 
 - **SPAdes** - [GitHub](https://github.com/ablab/spades)
 - **Unicycler** - [GitHub](https://github.com/rrwick/Unicycler)
@@ -35,7 +36,7 @@ If you are NOT running the sample data and you don't plan to reuse anything from
 
 ## Pipeline steps
 ### Downloading the genomes
-The pipeline begins by downloading the genomes from RefSeq if they have not already been downloaded. 
+The pipeline begins by downloading the genomes from RefSeq using the `datasets download` command if they have not already been downloaded. 
 The 4 genomes we use by default are:
 * Spiroplasma gladiatoris (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_004379335.1/)
 * Cruoricaptor ignavus (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_014961145.1/)
