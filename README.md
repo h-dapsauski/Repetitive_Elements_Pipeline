@@ -6,7 +6,7 @@ This pipeline is implemented in the Python programming language. The purpose of 
 To utilize and run the pipeline, install the following dependencies and ensure that these dependencies are within the directory where you will be running the pipeline: 
 
 - **Python** - [Download](https://www.python.org/downloads/)
-- **NCBI Datasets** [Download](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/command-line-tools/download-and-install/)
+- **NCBI Datasets** - [Download](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/command-line-tools/download-and-install/)
 - **ART** - [Download](https://www.niehs.nih.gov/research/resources/software/biostatistics/art) - use the MountRainier version 
 - **SPAdes** - [GitHub](https://github.com/ablab/spades)
 - **Unicycler** - [GitHub](https://github.com/rrwick/Unicycler)
