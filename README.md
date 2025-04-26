@@ -10,6 +10,7 @@ To utilize and run the pipeline, install the following dependencies and ensure t
 - **ART** - [Download](https://www.niehs.nih.gov/research/resources/software/biostatistics/art) - use the MountRainier version 
 - **SPAdes** - [GitHub](https://github.com/ablab/spades)
 - **Unicycler** - [GitHub](https://github.com/rrwick/Unicycler)
+- **Conda** - [Download](https://anaconda.org/anaconda/conda)
 - **QUAST** - [GitHub](https://github.com/ablab/quast)
 - **Matplotlib** - [Download](https://matplotlib.org/stable/install/index.html)
 
