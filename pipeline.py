@@ -251,7 +251,76 @@ def install_conda_and_quast():
 
     #Install quast
     os.system(f"{conda_bin} run -n {env_name} conda install -c bioconda quast -y")
-  
+
+
+# New Approach For Running QUAST 
+# New Approach For Running QUAST
+def run_quast():
+    # Current working directory as the base path
+    base_dir = os.getcwd()
+    
+    # Define paths for SPAdes output, Unicycler output, modified reference genomes, and QUAST output
+    spades_base = os.path.join(base_dir, "Spades_Output")
+    unicycler_base = os.path.join(base_dir, "Unicycler_Output")
+    modified_ref_dir = os.path.join(base_dir, "Modified_Genomes")
+    quast_output_base = os.path.join(base_dir, "Quast_Output")
+    
+    # Create the QUAST output directory if it doesn't exist
+    os.makedirs(quast_output_base, exist_ok=True)
+
+    # List all reference files in the modified reference genomes directory
+    references = [f for f in os.listdir(modified_ref_dir) if f.endswith(".fna")]
+
+    # Get a sorted list of subdirectories (one per assembly) in SPAdes output
+    subdirs = sorted(os.listdir(spades_base))
+    for sub in subdirs:
+        # Define the paths to the SPAdes and Unicycler assemblies and the output directory for QUAST
+        spades_dir = os.path.join(spades_base, sub)
+        unicycler_dir = os.path.join(unicycler_base, sub)
+        quast_output_dir = os.path.join(quast_output_base, sub)
+        
+        # Create the QUAST output subdirectory for this assembly
+        os.makedirs(quast_output_dir, exist_ok=True)
+
+        # Define the expected assembly file paths for SPAdes and Unicycler
+        spades_assembly = os.path.join(spades_dir, "scaffolds.fasta")
+        unicycler_assembly = os.path.join(unicycler_dir, "assembly.fasta")
+
+        # Check if both SPAdes and Unicycler assemblies exist; if not, skip this subdirectory
+        if not os.path.isfile(spades_assembly) or not os.path.isfile(unicycler_assembly):
+            print(f"Missing assembly for {sub}, skipping.")
+            continue
+
+        # Extract the base name for matching reference by using only the first four parts of the subdirectory name
+        parts = sub.split("_")
+        if len(parts) < 4:
+            print(f"Unexpected directory name format: {sub}, skipping.")
+            continue
+        base_name = "_".join(parts[:4])  # Expected format, e.g., "GCF_028532485_motif2_5"
+
+        # Find the reference genome that matches the base name
+        matched_ref = next(
+            (os.path.join(modified_ref_dir, f) for f in references if f.startswith(base_name)),
+            None
+        )
+
+        # If no matching reference is found, skip this subdirectory
+        if not matched_ref:
+            print(f"No reference found for {sub} (base: {base_name}), skipping.")
+            continue
+
+        # Construct the QUAST command
+        quast_cmd = (
+            f"quast.py {spades_assembly} {unicycler_assembly} "
+            f"-r {matched_ref} -l SPAdes,Unicycler "
+            f"-o {quast_output_dir}"
+        )
+
+        # Print status and run the QUAST command
+        print(f"Running QUAST for {sub}")
+        os.system(quast_cmd)
+
+'''
 ##running quast
 #need edit to make sure path directory is working
 def run_quast():
@@ -290,7 +359,8 @@ def run_quast():
     )
     print(quast_run)
     os.system(quast_run)
-  
+'''
+ 
 # Call the functions in order
 if __name__ == "__main__":
     download_genomes()
