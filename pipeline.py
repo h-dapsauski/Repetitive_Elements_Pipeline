@@ -178,7 +178,7 @@ def run_spades():
             '''
         os.chdir('..') #move back to orginal directory 
 
-def run_unicycler(): # MAKE CHANGES TO THIS FUNCTION 
+def run_unicycler():
     if not os.path.isdir("Unicycler_Output"):
         # Unicycler Run 
 
@@ -214,7 +214,7 @@ def run_unicycler(): # MAKE CHANGES TO THIS FUNCTION
 
         os.chdir("..")
 
-# Kimia's Code - Installing and running QUAST
+'''# Kimia's Code - Installing and running QUAST
 def install_conda_and_quast():
     current_dir = os.getcwd()  #get thecurrent working directory
     install_dir = os.path.join(current_dir, "quast_install") #the path where miniconda will be installed
@@ -251,7 +251,7 @@ def install_conda_and_quast():
 
     #Install quast
     os.system(f"{conda_bin} run -n {env_name} conda install -c bioconda quast -y")
-
+'''
 
 # New Approach For Running QUAST 
 # New Approach For Running QUAST
@@ -368,5 +368,5 @@ if __name__ == "__main__":
     run_art()
     run_spades()
     run_unicycler()
-    install_conda_and_quast()
+    #install_conda_and_quast()
     run_quast()
