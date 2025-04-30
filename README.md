@@ -31,10 +31,10 @@ Be mindful that this pipeline will skip certain steps depending on if it detects
 
 To reuse motifs without them being lost to randomization in subsequent runs, the program will skip the generation step of `generate_and_insert_repeats()` if it detects a `Motifs` folder with the files `motif1.txt`, `motif2.txt`, and `ip.txt`. 
 
-### Sample data
-Sample data has been provided using a truncated version of one of the genomes and a pre-generated set of motifs. If you run the sample data, remove the names of the other 3 genomes from the `accession` variable on line 12, leaving just `GCF_004379335.1`.
+### Sample data (IMPORTANT!)
+Sample data has been provided using a truncated version of one of the genomes and a pre-generated set of motifs. If you run the sample data, **remove the names of the other 3 genomes** from the `accession` variable on line 12, leaving just `GCF_004379335.1`.
 
-If you are NOT running the sample data and you don't plan to reuse anything from previous runs, the only things that should be in your `Repetitive_Elements_Pipleline` folder prior to beginning the run should be `pipeline.py` and this README. Delete the `Genomes` and `Motifs` folders that come with the pipeline as the sample data will conflict with your run.
+If you are **NOT** running the sample data and you don't plan to reuse anything from previous runs, the only things that should be in your `Repetitive_Elements_Pipleline` folder prior to beginning the run should be `pipeline.py` and this README. **DELETE** the `Genomes` and `Motifs` folders that come with the pipeline as the sample data will conflict with your run.
 
 ## Pipeline steps
 ### Downloading the genomes
