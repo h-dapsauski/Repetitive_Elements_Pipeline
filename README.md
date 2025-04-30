@@ -84,7 +84,7 @@ The call to Unicycler uses the following flags:
 * `-t` sets the number of threads used
 * `-o` is the output directory
 
-## Install Conda and QUAST
+## Install Conda and QUAST (unused)
 The `install_conda_and_quast()` function is used to automatically install Miniconda and create a Conda environment for running QUAST. When this function is run, it first checks whether Miniconda has already been installed. After Miniconda is installed, the function ensures that the Conda environment exists. If it does not, important channels are added.To install QUAST inside the conda environment, the script uses the command `-y` to automatically approves the installation without asking for confirmation.
 
 ## QUAST
