@@ -96,3 +96,5 @@ The call to QUAST uses the following flags:
 * `-l` labels for the assemblies
 * `-o` output directory for quast results 
 
+### Interpretation
+An additional, separate script has been provided to create a table from the QUAST data. However, this script implements hard-coding and is unlikely to work with different data. However, it has been provided for testing and reference purposes.
