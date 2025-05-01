@@ -28,7 +28,7 @@ for folder in os.listdir(base_folder):
     parts = folder.split('_')
     if len(parts) < 4:
         continue
-    sample_id = '_'.join(parts[:3])
+    sample_id = '_'.join(parts[:4])
     coverage = parts[4] + 'x'
 
     #start a new row
