@@ -13,6 +13,7 @@ To utilize and run the pipeline, install the following dependencies and ensure t
 - **Conda** - [Download](https://anaconda.org/anaconda/conda)
 - **QUAST** - [GitHub](https://github.com/ablab/quast)
 - **Matplotlib** - [Download](https://matplotlib.org/stable/install/index.html)
+- **Pandas** (summary script only, not required for main pipeline) - [Download](https://pandas.pydata.org/docs/getting_started/install.html) 
 
 The pipeline currently uses 4 specific genomes, but these can be changed to any other genomes by modifying the `accession` variable. 
 
